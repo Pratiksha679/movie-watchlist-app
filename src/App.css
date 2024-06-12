@@ -1,0 +1,38 @@
+body {
+  background-color: whitesmoke !important;
+}
+
+.top-watchlist-container {
+  margin-top: 20px
+}
+
+.height-class {
+  height: 95vh;
+}
+
+.custom-width {
+  width: 80%;
+}
+
+.card-container {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.card-wrap {
+  display: flex;
+  padding: 10px;
+}
+
+.card {
+  box-shadow: 5px 10px 20px 1px grey;
+}
+
+.icon-img-container {
+  position: relative;
+}
+
+.icon-img-container .btn {
+  position: absolute;
+  margin: 0px;
+}
