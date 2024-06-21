@@ -18,7 +18,7 @@ export const MovieLandingPage = () => {
 
     const getMoviesListAndUpdateState = (searchFilter) => {
         if (searchFilter && searchFilter != "") {
-            fetch(`http://www.omdbapi.com/?s=${searchFilter}&apikey=${apiKey}`).then((initialResponse) => {
+            fetch(`https://www.omdbapi.com/?s=${searchFilter}&apikey=${apiKey}`).then((initialResponse) => {
                 initialResponse.json().then((actualResponse) => {
                     if (actualResponse.Search) {
                         setMovies(actualResponse.Search);

@@ -8,11 +8,10 @@ export const MoviesSideBar = () => {
     const handleLogout = async () => {
         try {
             await auth.signOut();
-            console.log("User logged out successfully!");
             navigate('/');
         }
         catch (error) {
-            console.log("Error looging out the user ", error.message);
+            console.log("Error logging out the user ", error.message);
         }
     }
     return (
