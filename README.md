@@ -1,6 +1,6 @@
 # movie-watchlist-app
 
-This app lets you
+This app has following functionalities
 - Search a movie by its title
 - Add movies to playlist
 - View movies in the playlist
