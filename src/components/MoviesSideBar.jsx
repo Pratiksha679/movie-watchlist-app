@@ -1,9 +1,20 @@
 import '../App.css'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useNavigate } from 'react-router';
+import { auth } from '../config/firebase';
 
 export const MoviesSideBar = () => {
     const navigate = useNavigate();
+    const handleLogout = async () => {
+        try {
+            await auth.signOut();
+            console.log("User logged out successfully!");
+            navigate('/');
+        }
+        catch (error) {
+            console.log("Error looging out the user ", error.message);
+        }
+    }
     return (
         <>
             <div className='d-flex flex-column m-3'>
@@ -32,7 +43,7 @@ export const MoviesSideBar = () => {
                 </div>
                 <div className='mt-3'>
                     <button className="btn btn-light custom-width w-100" onClick={() => {
-                        navigate('/login');
+                        handleLogout();
                     }}>
                         <i className="bi bi-box-arrow-left"></i>&nbsp;
                         Log out

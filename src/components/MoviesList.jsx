@@ -1,7 +1,4 @@
-export const MoviesList = ({ errorMessage, movies, handleMovieClick, WatchListButtonComponent }) => {
-    if (errorMessage) {
-        return <DisplayErrorMessage errorMessage={errorMessage} />
-    }
+export const MoviesList = ({ movies, handleMovieClick, WatchListButtonComponent }) => {
     return (
         <>
             {movies.map((movie) => (
@@ -21,13 +18,5 @@ export const MoviesList = ({ errorMessage, movies, handleMovieClick, WatchListBu
                 </div >
             ))}
         </>
-    )
-}
-
-function DisplayErrorMessage({ errorMessage }) {
-    return (
-        <div className="alert alert-danger w-100" role="alert">
-            {errorMessage}
-        </div>
     )
 }

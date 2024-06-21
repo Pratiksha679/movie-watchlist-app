@@ -1,5 +1,18 @@
+import swal from 'sweetalert';
+
 export const MoviesSearchFilter = (props) => {
     let value;
+
+    const onClick = (value) => {
+        console.log(value);
+        if (value) {
+            props.setSearchFilter(value);
+        }
+        else {
+            swal("Error", "Please enter title of the movie to proceed", "error");
+        }
+    }
+
     return (
         <div className='d-flex flex-column m-4 p-2'>
             <div className="input-group col-xs-6">
@@ -8,7 +21,7 @@ export const MoviesSearchFilter = (props) => {
                     value = e.target.value;
                 }} />
                 <button className="btn btn-danger" onClick={() => {
-                    props.setSearchFilter(value);
+                    onClick(value)
                 }}>Search</button>
             </div>
         </div>

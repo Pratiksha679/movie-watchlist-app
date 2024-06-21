@@ -5,51 +5,50 @@ import { MoviesSearchFilter } from '../components/MoviesSearchFilter'
 import { MoviesSideBar } from '../components/MoviesSideBar'
 import { AddToWatchListButton } from '../components/AddtoWatchListButton'
 import { useLocalStorage } from "usehooks-ts"
-import { RecoilRoot, useRecoilState, useRecoilValue } from 'recoil'
-import { errorAtom } from '../store/atoms/ErrorAtom'
-import { successAtom } from '../store/atoms/SuccessAtom'
-import { emailAtom } from '../store/atoms/EmailAtom'
+import { auth } from '../config/firebase'
 
 export const MovieLandingPage = () => {
-    return (<>
-        <RecoilRoot>
-            <MovieLandingApp />
-        </RecoilRoot>
-    </>)
-}
-
-function MovieLandingApp() {
     const [movies, setMovies] = useState([]);
     const [searchFilter, setSearchFilter] = useState("");
-    const email = useRecoilValue(emailAtom);
-    const [watchlist, setWatchList] = useLocalStorage(`react-app-watchlist-items-${email}`, []);
-    const [errorMessage, setErrorMessage] = useRecoilState(errorAtom);
+    const currentUserUid = auth.currentUser.uid;
+    const localStorageKey = `react-app-watchlist-items-${currentUserUid}`;
+    const [watchlist, setWatchList] = useLocalStorage(localStorageKey, []);
+
+    const apiKey = process.env.REACT_APP_APIKEY;
 
     const getMoviesListAndUpdateState = (searchFilter) => {
-        if (searchFilter) {
-            fetch(`http://www.omdbapi.com/?s=${searchFilter}&apikey=a0cad860`).then((initialResponse) => {
+        if (searchFilter && searchFilter != "") {
+            fetch(`http://www.omdbapi.com/?s=${searchFilter}&apikey=${apiKey}`).then((initialResponse) => {
                 initialResponse.json().then((actualResponse) => {
                     if (actualResponse.Search) {
                         setMovies(actualResponse.Search);
                     }
-                    else {
-                        setErrorMessage("Movie Title that you entered is not present , Please try again with correct movie title!");
-                    }
                 })
             })
-        }
-        else {
-            setErrorMessage("Please enter the title of the movie to search for a movie");
         }
     };
 
     useEffect(() => {
-        setErrorMessage("");
         getMoviesListAndUpdateState(searchFilter);
     }, [searchFilter]);
 
+    useEffect(() => {
+        auth.onAuthStateChanged((user) => {
+
+        })
+    })
+
     const handleMovieClick = (movie) => {
-        setWatchList([...watchlist, movie])
+        const movieInWatchlist = watchlist.find((item) => {
+            return item.imdbID == movie.imdbID;
+        })
+        if (movieInWatchlist) {
+            swal("Error", "The selected movie is already present in your watchlist", "error");
+        }
+        else {
+            swal("Success", "Movie is added to your watchlist", "success");
+            setWatchList([...watchlist, movie]);
+        }
     }
 
     return (<div className='d-flex p-3 justify-content-start vh-100 w-100'>
@@ -64,8 +63,9 @@ function MovieLandingApp() {
                 <MoviesSearchFilter setSearchFilter={setSearchFilter} />
             </div>
             <div className='card-container p-2 m-4 justify-content-start'>
-                <MoviesList errorMessage={errorMessage} movies={movies} handleMovieClick={handleMovieClick} WatchListButtonComponent={AddToWatchListButton} />
+                <MoviesList movies={movies} handleMovieClick={handleMovieClick} WatchListButtonComponent={AddToWatchListButton} />
             </div>
         </div>
-    </div>)
+    </div>
+    )
 }

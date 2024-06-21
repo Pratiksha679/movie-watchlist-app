@@ -2,24 +2,19 @@ import { MoviesSideBar } from "./MoviesSideBar"
 import { MoviesList } from "./MoviesList"
 import { RemoveFromWatchListButton } from "./RemoveFromWatchListButton"
 import { useLocalStorage } from "usehooks-ts"
-import { useRecoilValue } from "recoil"
-import { emailAtom } from "../store/atoms/EmailAtom"
+import swal from "sweetalert"
+import { auth } from "../config/firebase"
 
 export const WatchList = () => {
-    return (<Recoil>
-        <WatchListApp />
-    </Recoil>)
-}
-
-
-function WatchListApp() {
-    const email = useRecoilValue(emailAtom);
-    const [watchlist, setWatchList] = useLocalStorage("react-app-watchlist-items-" + email);
+    const currentUserUid = auth.currentUser.uid;
+    const localStorageKey = `react-app-watchlist-items-${currentUserUid}`;
+    const [watchlist, setWatchList] = useLocalStorage(localStorageKey);
     const handleMovieClick = (movie) => {
-        const filteredArray = watchlist.filter((item) => {
-            return item.imdbID !== movie.imdbID
-        })
-        setWatchList(filteredArray);
+        const filterMovieWatchList = watchlist.filter((item) => {
+            return item.imdbID != movie.imdbID;
+        });
+        setWatchList(filterMovieWatchList);
+        swal("Success", "Movie is removed from your watchlist", "success");
     }
     return (
         <div className='d-flex p-3 justify-content-start vh-100 w-100'>
