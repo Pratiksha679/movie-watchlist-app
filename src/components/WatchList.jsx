@@ -8,7 +8,7 @@ import { auth } from "../config/firebase"
 export const WatchList = () => {
     const currentUserUid = auth.currentUser.uid;
     const localStorageKey = `react-app-watchlist-items-${currentUserUid}`;
-    const [watchlist, setWatchList] = useLocalStorage(localStorageKey);
+    const [watchlist, setWatchList] = useLocalStorage(localStorageKey, []);
     const handleMovieClick = (movie) => {
         const filterMovieWatchList = watchlist.filter((item) => {
             return item.imdbID != movie.imdbID;
