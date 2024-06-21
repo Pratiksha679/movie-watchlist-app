@@ -16,7 +16,6 @@ export const SignupPage = () => {
         e.preventDefault();
         try {
             await createUserWithEmailAndPassword(auth, email, password);
-            const user = auth.currentUser;
             toast.success("User registered successfully !", {
                 position: "top-center",
             });

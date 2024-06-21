@@ -25,7 +25,6 @@ export const LoginPage = () => {
                 position: "bottom-center",
             });
         }
-
     }
 
     return (

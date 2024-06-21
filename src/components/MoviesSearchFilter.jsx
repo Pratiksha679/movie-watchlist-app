@@ -4,7 +4,6 @@ export const MoviesSearchFilter = (props) => {
     let value;
 
     const onClick = (value) => {
-        console.log(value);
         if (value) {
             props.setSearchFilter(value);
         }

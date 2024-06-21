@@ -13,7 +13,6 @@ export const MovieLandingPage = () => {
     const currentUserUid = auth.currentUser.uid;
     const localStorageKey = `react-app-watchlist-items-${currentUserUid}`;
     const [watchlist, setWatchList] = useLocalStorage(localStorageKey, []);
-
     const apiKey = process.env.REACT_APP_APIKEY;
 
     const getMoviesListAndUpdateState = (searchFilter) => {
@@ -31,12 +30,6 @@ export const MovieLandingPage = () => {
     useEffect(() => {
         getMoviesListAndUpdateState(searchFilter);
     }, [searchFilter]);
-
-    useEffect(() => {
-        auth.onAuthStateChanged((user) => {
-
-        })
-    })
 
     const handleMovieClick = (movie) => {
         const movieInWatchlist = watchlist.find((item) => {
